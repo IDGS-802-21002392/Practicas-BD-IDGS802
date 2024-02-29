@@ -18,3 +18,4 @@ class Maestros(db.Model):
     email = db.Column(db.String(50))
     materias = db.Column(db.String(50))
     create_date = db.Column(db.DateTime, default=datetime.datetime.now)
+    
