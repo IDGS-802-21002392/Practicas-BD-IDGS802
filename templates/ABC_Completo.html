@@ -28,35 +28,4 @@
         </table>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <h3>Maestros</h3>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apaterno</th>
-                    <th>Amaterno</th>
-                    <th>Correo</th>
-                    <th>Materias</th>
-                    <th>Eliminar</th>
-                    <th>Modificar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {%for mae in Maestros%}
-                <tr>
-                    <td>{{mae.nombre}}</td>
-                    <td>{{mae.apaterno}}</td>
-                    <td>{{mae.amaterno}}</td>
-                    <td>{{mae.email}}</td>
-                    <td>{{mae.materias}}</td>
-                    <td><a href="eliminar.html?id={{mae.id}}" class="btn btn-danger">Eliminar</a></td>
-                    <td><a href="modificar.html?id={{mae.id}}" class="btn btn-warning">Modificar</a></td>
-                </tr>
-                {%endfor%}
-            </tbody>
-        </table>
-    </div>
-</div>
 {%endblock%}
