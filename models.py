@@ -19,3 +19,9 @@ class Maestros(db.Model):
     materias = db.Column(db.String(50))
     create_date = db.Column(db.DateTime, default=datetime.datetime.now)
     
+
+class Pizzeria(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(50))
+    total = db.Column(db.Float)
+    create_date = db.Column(db.DateTime, default=datetime.datetime.now)
