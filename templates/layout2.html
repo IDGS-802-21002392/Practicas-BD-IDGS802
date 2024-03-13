@@ -6,15 +6,47 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <link rel="stylesheet" href="..\boostrap\css\bootstrap.min.css">
+    <link rel="stylesheet" href="..\static\boostrap\css\bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .flex-row > div {
+            flex: 1;
+        }
+        .border-box {
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .table-container {
+            margin-top: 20px;
+            background-color: white;
+        }
+        .table-container1 {
+            margin-top: 20px;
+            background-color: grey;
+            width: 40%;
+        }
         body{
-            padding-top: 60px;}
+            padding-top: 60px;
+            padding-left: 60px;
+            background-color:#2271b3
+        }
             .tr-head{background: #dff0d8;}
+        .input {
+            background-color: aliceblue;
+            height: 30px; 
+        }
+           
     </style>
     <link rel="stylesheet" href="../static/boostrap/css/bootstrap-responsive.min.css">
 </head>
-<body>
+<body style="overflow: scroll;">
     <div class="navbar navbar-inverse navbar-fixed-top">
        <div class="navbar-inner">
             <div class="container">

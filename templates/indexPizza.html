@@ -3,113 +3,159 @@
 {%block content %}
     <div class="container">
         <div class="row">
-            <form name="registro" action="" id="registro" method="post">
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 float-label-form-group controls">
-                        {{input_Form(form.nombre, class="form-control")}}
-                    </div>
-                </div>
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 float-label-form-group controls">
-                        {{input_Form(form.direccion, class="form-control")}}
-                    </div>
-                </div>
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 float-label-form-group controls">
-                        {{input_Form(form.telefono, class="form-control")}}
-                    </div>
-                </div>
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 float-label-form-group controls">
-                        {{input_Form(form.tamanio, class="form-control")}}
-                    </div>
-                </div>
-                <div class="border-2 border-gray-300 p-4 rounded-lg">
-                    <label> Ingredientes </label>
+            <form name="registro" action="/pizzas" id="registro" method="POST" style="margin-top: 20px;">
+                <dialog id="alert">
+                    <h2>Estas seguro que deseas terminar la venta? <span id="preTotal"></span></h2>
                     <div>
-                        {{input_Form(form.jamon,class="toggle
-                        toggle-info")}}
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                        <input type="submit" id="Terminar" name="Terminar" value="Terminar" class="btn btn-primary" />
                     </div>
-                    <div>
-                        {{input_Form(form.pinia,class="toggle
-                        toggle-info")}}
-                    </div>
-                    <div>
-                        {{input_Form(form.champinion,class="toggle
-                        toggle-info")}}
-                    </div>
+                </dialog>
+                <div class="flex-row">
+                    {{input_Form(form.nombre, class="form-control")}}
+                    {{input_Form(form.direccion, class="form-control")}}
+                    {{input_Form(form.telefono, class="form-control")}}
+                    {{input_Form(form.fechaRegistro, class="form-group")}}
                 </div>
-                <div class="row control-group">
-                    <div class="form-group col-xs-12 float-label-form-group controls">
+                <div class="flex-row">
+                    <div class="border-box">
+                        {{input_Form(form.tamanio, class="form-group")}}
+                    </div>
+                    <div class="border-box">
+                        <label>Ingredientes</label>
+                        <div>
+                            {{input_Form(form.jamon,class="toggle toggle-info")}}
+                            {{input_Form(form.pinia,class="toggle toggle-info")}}
+                            {{input_Form(form.champinion,class="toggle toggle-info")}}
+                        </div>
+                    </div>
+                    <div class="flex-row">
                         {{input_Form(form.numPizzas, class="form-control")}}
+                        <input type="submit" id="Agregar" name="Agregar" value="Agregar" class="input" />
                     </div>
                 </div>
-                <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
-                <input type="submit" id="agregar" name="submit" value="Agregar" class="btn btn-primary"/>
+                </div>
+                </div>
+            
+                <div class="container">
+                    <div class="flex-row" style="display: flex; justify-content: space-between;">
+                        <!-- Contenedor para la primera tabla -->
+                        <div>
+                            <div style="flex: 1; margin-right: 20px;" class="border-box"> <!-- Ajusta el margen según necesites -->
+                                <table class="table-container">
+                                    <thead>
+                                        <tr>
+                                            <th>Tamaño</th>
+                                            <th>Ingredientes</th>
+                                            <th>Num. Pizzas</th>
+                                            <th>SubTotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for pizza in pizzas %}
+                                        <tr>
+                                            <td>{{ pizza.tamanio }}</td>
+                                            <td>
+                                                {% if pizza.jamon %}Jamon{% endif %}
+                                                {% if pizza.pinia %}Piña{% endif %}
+                                                {% if pizza.champinion %}Champiñones{% endif %}
+                                            </td>
+                                            <td>{{ pizza.num_pizzas }}</td>
+                                            <td>{{ pizza.subtotal }}</td>
+                                            <td>
+                                                {{ form.csrf_token }}
+                                                <input type="submit" id="Quitar" name="Quitar" value="{{pizza.id}}"
+                                                    class="input">Quitar</input>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                                <input type="submit" id="preTerminar" name="preTerminar" value="preTerminar" class="input" />
+                            </div>
+                        </div>
+            
+                        <!-- Contenedor para la segunda tabla y el resumen de ventas -->
+                        <div style="flex: 1;" class="border-box">
+                            <table class="table-container1">
+                                <h2>Ventas del dia</h2>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for total in pizza %}
+                                    <tr>
+                                        <td>{{ total.nombre }}</td>
+                                        <td>{{ total.total }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="form-group col-xs-12 float-label-form-group controls">
+                                <label>Ventas totales del día: ${{ventas_Dia}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+                <div class="container">
+                    <div class="border-box">
+                        <table class="table table-striped table-bordered">
+                            <label for="fecha">Fecha:</label>
+                            <input type="text" id="fecha" name="fecha">
+                            <input type="submit" name="fecha" value="Buscar" class="input"></input>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for venta in tabla_ventas %}
+                                <tr>
+                                    <td>{{ venta[0] }}</td>
+                                    <td>{{ venta[1] }}</td>
+                                    <td>{{ venta[2] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="form-group col-xs-12 float-label-form-group controls">
+                            <label>Ventas totales del día: ${{suma_ventas}}</label>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <h3>Pizzeria</h3>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Tamaño</th>
-                        <th>Ingredientes</th>
-                        <th>Num. Pizzas</th>
-                        <th>SubTotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for pizza in pizzas %}
-                    <tr>
-                        <td>{{ pizza.tamanio }}</td>
-                        <td>
-                            {% if pizza.jamon %}
-                                Jamon
-                            {% endif %}
-                            {% if pizza.pinia %}
-                                Piña
-                            {% endif %}
-                            {% if pizza.champinion %}
-                                Champiñones
-                            {% endif %}
-                        </td>
-                        <td>{{ pizza.num_pizzas }}</td>
-                        <td>{{ pizza.subtotal }}</td>
-                        <td>
-                            <form method="POST">
-                                <input type="hidden" name="id" value="{{ pizza_id }}">
-                                <button type="submit" name="submit" value="Quitar" class="btn btn-danger">Quitar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
 
-        <div class="row">
-            <h3>Ventas del dia</h3>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%for total in pizza%}
-                    <tr>
-                        <td>{{ total.nombre }}</td>
-                        <td>{{ total.total }}</td>
-                    </tr>
-                    {%endfor%}
-                    
-                </tbody>
-            </table>
-        </div>
-
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('preTerminar').addEventListener('click', function(e) {
+                e.preventDefault(); // Evita que el formulario se envíe automáticamente
+                const subtotalCells=document.querySelectorAll('td:nth-child(4)')
+                // Calcula el total sumando el contenido de las celdas que representan subtotales
+                let total =Array.from(subtotalCells).reduce((acc, cell) => {
+                    const subtotal=parseFloat(cell.textContent);
+                    if(!isNaN(subtotal)){
+                        console.log(subtotal)
+                        return acc+subtotal;
+                    }
+                    return acc;
+                }, 0);
+                document.getElementById('preTotal').innerHTML=total
+                document.getElementById('alert').show()
+            });
+        });
+        
+    </script>
+    
 {%endblock%}
